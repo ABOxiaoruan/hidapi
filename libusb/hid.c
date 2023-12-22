@@ -1241,7 +1241,7 @@ static int hidapi_initialize_device(hid_device *dev, const struct libusb_interfa
 		    is_interrupt && is_input) {
 			/* Use this endpoint for INPUT */
 			dev->input_endpoint = ep->bEndpointAddress;
-			dev->input_ep_max_packet_size = ep->wMaxPacketSize;
+			dev->input_ep_max_packet_size = ((ep->wMaxPacketSize) & 0x07ff)*(((ep->wMaxPacketSize) >> 11)+1);
 		}
 		if (dev->output_endpoint == 0 &&
 		    is_interrupt && is_output) {
